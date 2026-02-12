@@ -49,6 +49,37 @@
     button:active {
       background: #274b73;
     }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    button:disabled:hover {
+      background: #152238;
+    }
+    .lap-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      max-width: 20rem;
+      max-height: 12rem;
+      overflow-y: auto;
+      margin-top: 0.5rem;
+      border: 1px solid #1e3a5f;
+      border-radius: 0.25rem;
+      background: #152238;
+    }
+    .lap-list li {
+      padding: 0.5rem 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e3a5f;
+      font-variant-numeric: tabular-nums;
+    }
+    .lap-list li:last-child {
+      border-bottom: none;
+    }
   </style>
 </head>
 <body>
@@ -57,18 +88,23 @@
     <div class="controls">
       <button type="button" id="startPause">Start</button>
       <button type="button" id="reset">Reset</button>
+      <button type="button" id="lap">Lap</button>
     </div>
+    <ol id="lapList" class="lap-list"></ol>
   </main>
   <script>
     (function () {
       const display = document.getElementById('display');
       const startPauseBtn = document.getElementById('startPause');
       const resetBtn = document.getElementById('reset');
+      const lapBtn = document.getElementById('lap');
+      const lapListEl = document.getElementById('lapList');
 
       let running = false;
       let accumulatedMs = 0;
       let startedAt = 0;
       let intervalId = null;
+      let laps = [];
 
       function formatTime(totalMs) {
         const cs = Math.floor((totalMs / 10) % 100);
@@ -88,10 +124,20 @@
         display.textContent = formatTime(totalMs);
       }
 
+      function renderLapList() {
+        lapListEl.innerHTML = '';
+        laps.forEach(function (timeMs, index) {
+          const li = document.createElement('li');
+          li.textContent = 'Lap ' + (index + 1) + ' — ' + formatTime(timeMs);
+          lapListEl.appendChild(li);
+        });
+      }
+
       function start() {
         if (running) return;
         startedAt = Date.now();
         running = true;
+        lapBtn.disabled = false;
         startPauseBtn.textContent = 'Pause';
         intervalId = setInterval(refreshDisplay, 10);
       }
@@ -99,6 +145,7 @@
       function pause() {
         if (!running) return;
         running = false;
+        lapBtn.disabled = true;
         accumulatedMs += Date.now() - startedAt;
         startPauseBtn.textContent = 'Start';
         if (intervalId !== null) {
@@ -111,19 +158,30 @@
       function reset() {
         running = false;
         accumulatedMs = 0;
+        laps = [];
+        lapBtn.disabled = true;
         startPauseBtn.textContent = 'Start';
         if (intervalId !== null) {
           clearInterval(intervalId);
           intervalId = null;
         }
         display.textContent = '00:00.00';
+        renderLapList();
       }
+
+      lapBtn.disabled = true;
 
       startPauseBtn.addEventListener('click', function () {
         if (running) pause();
         else start();
       });
       resetBtn.addEventListener('click', reset);
+      lapBtn.addEventListener('click', function () {
+        if (!running) return;
+        const totalMs = accumulatedMs + (Date.now() - startedAt);
+        laps.push(totalMs);
+        renderLapList();
+      });
     })();
   </script>
 </body>
