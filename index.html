@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stopwatch</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #1a1a1a;
+      color: #eee;
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .time {
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(2.5rem, 12vw, 4rem);
+      font-weight: 500;
+    }
+    .controls {
+      display: flex;
+      gap: 1rem;
+    }
+    button {
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      min-width: 5rem;
+      cursor: pointer;
+      border: 1px solid #555;
+      border-radius: 0.25rem;
+      background: #333;
+      color: #eee;
+    }
+    button:hover {
+      background: #444;
+    }
+    button:active {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <output class="time" id="display" aria-live="polite">00:00.00</output>
+    <div class="controls">
+      <button type="button" id="startPause">Start</button>
+      <button type="button" id="reset">Reset</button>
+    </div>
+  </main>
+  <script>
+    (function () {
+      const display = document.getElementById('display');
+      const startPauseBtn = document.getElementById('startPause');
+      const resetBtn = document.getElementById('reset');
+
+      let running = false;
+      let accumulatedMs = 0;
+      let startedAt = 0;
+      let intervalId = null;
+
+      function formatTime(totalMs) {
+        const cs = Math.floor((totalMs / 10) % 100);
+        const sec = Math.floor((totalMs / 1000) % 60);
+        const min = Math.floor(totalMs / 60000);
+        return (
+          String(min).padStart(2, '0') + ':' +
+          String(sec).padStart(2, '0') + '.' +
+          String(cs).padStart(2, '0')
+        );
+      }
+
+      function refreshDisplay() {
+        const totalMs = running
+          ? accumulatedMs + (Date.now() - startedAt)
+          : accumulatedMs;
+        display.textContent = formatTime(totalMs);
+      }
+
+      function start() {
+        if (running) return;
+        startedAt = Date.now();
+        running = true;
+        startPauseBtn.textContent = 'Pause';
+        intervalId = setInterval(refreshDisplay, 10);
+      }
+
+      function pause() {
+        if (!running) return;
+        running = false;
+        accumulatedMs += Date.now() - startedAt;
+        startPauseBtn.textContent = 'Start';
+        if (intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+        refreshDisplay();
+      }
+
+      function reset() {
+        running = false;
+        accumulatedMs = 0;
+        startPauseBtn.textContent = 'Start';
+        if (intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+        display.textContent = '00:00.00';
+      }
+
+      startPauseBtn.addEventListener('click', function () {
+        if (running) pause();
+        else start();
+      });
+      resetBtn.addEventListener('click', reset);
+    })();
+  </script>
+</body>
+</html>
