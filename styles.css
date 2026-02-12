@@ -7,67 +7,67 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #0b1120;
-  color: #c8d6e5;
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--space-lg);
 }
 .time {
   font-variant-numeric: tabular-nums;
-  font-size: clamp(2.5rem, 12vw, 4rem);
-  font-weight: 500;
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-display);
 }
 .controls {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-md);
 }
 button {
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  min-width: 5rem;
+  padding: var(--button-padding-y) var(--button-padding-x);
+  font-size: var(--font-size-body);
+  min-width: var(--button-min-width);
   cursor: pointer;
-  border: 1px solid #1e3a5f;
-  border-radius: 0.25rem;
-  background: #152238;
-  color: #c8d6e5;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 button:hover {
-  background: #1e3a5f;
+  background: var(--color-surface-hover);
 }
 button:active {
-  background: #274b73;
+  background: var(--color-surface-active);
 }
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 button:disabled:hover {
-  background: #152238;
+  background: var(--color-surface);
 }
 .lap-list {
   list-style: none;
   margin: 0;
   padding: 0;
   width: 100%;
-  max-width: 20rem;
-  max-height: 12rem;
+  max-width: var(--lap-list-max-width);
+  max-height: var(--lap-list-max-height);
   overflow-y: auto;
-  margin-top: 0.5rem;
-  border: 1px solid #1e3a5f;
-  border-radius: 0.25rem;
-  background: #152238;
+  margin-top: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
 }
 .lap-list li {
-  padding: 0.5rem 0.75rem;
+  padding: var(--lap-item-padding-y) var(--lap-item-padding-x);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #1e3a5f;
+  border-bottom: 1px solid var(--color-border);
   font-variant-numeric: tabular-nums;
 }
 .lap-list li:last-child {
