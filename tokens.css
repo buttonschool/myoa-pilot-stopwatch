@@ -1,17 +1,24 @@
 :root {
-  /* --- Colors --- */
+  /* --- Base palette (non-semantic) --- */
+  --base-1: #1d1b19;
+  --base-2: #2c2a27;
+  --base-3: #47433f;
+  --base-4: #5a5650;
+  --base-5: #dfddd9;
+
+  /* --- Semantic colors (use base palette) --- */
   /* Primary page background */
-  --color-bg: #0b1120;
+  --color-bg: var(--base-1);
   /* Cards, buttons, lap list */
-  --color-surface: #152238;
+  --color-surface: var(--base-2);
   /* Borders */
-  --color-border: #1e3a5f;
+  --color-border: var(--base-3);
   /* Button hover */
-  --color-surface-hover: #1e3a5f;
+  --color-surface-hover: var(--base-3);
   /* Button active/pressed */
-  --color-surface-active: #274b73;
+  --color-surface-active: var(--base-4);
   /* Primary text */
-  --color-text: #c8d6e5;
+  --color-text: var(--base-5);
 
   /* --- Typography --- */
   --font-family: system-ui, -apple-system, sans-serif;
