@@ -13,6 +13,8 @@
   --color-surface: var(--base-2);
   /* Borders */
   --color-border: var(--base-3);
+  /* Subtle dividers (e.g. lap list) */
+  --color-border-subtle: var(--base-2);
   /* Button hover */
   --color-surface-hover: var(--base-3);
   /* Button active/pressed */

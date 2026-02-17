@@ -58,18 +58,19 @@ button:disabled:hover {
   max-height: var(--lap-list-max-height);
   overflow-y: auto;
   margin-top: var(--space-sm);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
 }
 .lap-list li {
   padding: var(--lap-item-padding-y) var(--lap-item-padding-x);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--color-border);
+  gap: var(--space-md);
+  border-bottom: 1px solid var(--color-border-subtle);
   font-variant-numeric: tabular-nums;
 }
 .lap-list li:last-child {
   border-bottom: none;
+}
+.lap-list .lap-time {
+  margin-left: auto;
 }

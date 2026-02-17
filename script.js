@@ -33,7 +33,13 @@
     lapListEl.innerHTML = '';
     laps.forEach(function (timeMs, index) {
       const li = document.createElement('li');
-      li.textContent = 'Lap ' + (index + 1) + ' — ' + formatTime(timeMs);
+      const label = document.createElement('span');
+      label.textContent = 'Lap ' + (index + 1);
+      const timeSpan = document.createElement('span');
+      timeSpan.className = 'lap-time';
+      timeSpan.textContent = formatTime(timeMs);
+      li.appendChild(label);
+      li.appendChild(timeSpan);
       lapListEl.appendChild(li);
     });
   }
